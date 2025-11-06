@@ -1,29 +1,80 @@
-URL for fastapi app: http://3.145.84.64/docs
+# FastAPI Model Deployment
 
-For this assignment, we had to deploy our model using FastAPI, Docker, AWS and github. We first created the fastAPI app and tested it to run locally, 
-then we converted it into a docker image so that we could upload it using AWS.
-AWS deployment: I used cloudshell to setup the correct environment and set up parameters such as region(us-east-2) and my user ID, once that was created, I 
-uploaded my files onto the application and ran it on cloudshell and created a docker image which I stored in a repo named my-fastapi-app. Once that was
-created, I used ECS to setup the correct cluster (mlops-cluster) and then i created a task definition (mlops-task2) with the correct VPC(project) and once I 
-completed these steps I was able to deploy it.
-Issues for AWS deployment: I could not follow the same steps as shown in lecture as I was not using pycharm and did not have the AWS CLI on my computer. I had to
-upload the files to cloudshell and create a repo and faced an issue where my code did not run without the excel file, this is most likely caused because, 
-the docker image that I upload contains the trained model and thus I don't need the excel file if the image did not need to be created, however, since I used
-cloudshell to create the docker image I also needed to upload the excel file. 
-Secondly, once I had fixed the issue with the docker image being created, I had to create a new repo (my-fastapi-app) and upload my code manually into it, as
-I was not able to debug the list of issues I had recieved with my previous task definition, however, upon created a new task def I did not face any previous
-errors. 
+**Live App URL:** [http://3.145.84.64/docs](http://3.145.84.64/docs)
 
-Github actions deployment: Once it had been deployed on AWS, I used github actions to create a new workflow using the Deploy to Amazon ECS workflow, where I had 
-to add parameters from my AWS account such as region, cluster, task definition json etc. I also had to create a github access key and secret access key using the
-secret command in github repo which contains the access key to run my deployment on AWS. Once these changes have been made, any commits in my repo will cause
-it to deploy on AWS to reflect these changes.
-Issues for Github deployment: I faced an error in my downloaded JSON file with enableFaultInjection parameter in task definitions section and deleted it as
-we are trying to run the docker image and do not need it for ECS deployment. However, upon removing it, the deployment kept referencing a past version of the json 
-file and registered the error despite there not being any such parameter. Upon committing these changes and AWS updating the task definition and creating a new
-version : mlops_task2:2 (second deployment) with the updated json file, this error fixed itself, however, on github deployment this was still marked as a failed
-deployment until AWS task reached a stable state.
-Additionally, one minor issue was that my docker file was located in a different directory from the workflow, so in the run: command I added a cd A1 command to 
-change directory so that it does not mark this as an error and has access to the correct docker file. 
+This project demonstrates how to deploy a machine learning model using **FastAPI**, **Docker**, **AWS ECS**, and **GitHub Actions**. The deployment process involved local testing, containerization, cloud deployment, and CI/CD integration.
 
-Please let me know if you can access the URL in case I need to reactivate it. 
+---
+
+## Project Overview
+
+- Built a FastAPI app to serve a trained ML model.
+- Containerized the app using Docker.
+- Deployed the container to AWS ECS using CloudShell.
+- Automated future deployments via GitHub Actions.
+
+---
+
+## Step-by-Step Deployment
+
+### 1. FastAPI App Development
+
+- Created and tested the FastAPI app locally.
+- Verified endpoints and model predictions using the interactive Swagger UI.
+
+### 2. Docker Containerization
+
+- Converted the FastAPI app into a Docker image.
+- Stored the image in a repository named `my-fastapi-app`.
+
+### 3. AWS Deployment via CloudShell
+
+- Used **AWS CloudShell** to configure the environment:
+  - Set region to `us-east-2`
+  - Configured user credentials
+- Uploaded project files and created the Docker image inside CloudShell.
+- Pushed the image to AWS ECR.
+- Set up **ECS**:
+  - Created a cluster: `mlops-cluster`
+  - Defined a task: `mlops-task2`
+  - Assigned the correct VPC and networking settings
+- Successfully deployed the containerized app.
+
+#### AWS Deployment Challenges
+
+- Could not follow lecture steps due to lack of AWS CLI and PyCharm.
+- Had to manually upload files to CloudShell.
+- Faced issues with missing Excel file during image creation:
+  - The trained model was already embedded in the Docker image.
+  - However, since the image was built in CloudShell, the Excel file was required.
+- Resolved by uploading the Excel file and rebuilding the image.
+- Created a new repository and task definition to bypass previous errors.
+
+---
+
+## GitHub Actions Deployment
+
+- Set up a GitHub Actions workflow using **Deploy to Amazon ECS** template.
+- Added required secrets:
+  - AWS region
+  - ECS cluster name
+  - Task definition JSON
+  - GitHub access and secret keys
+- Enabled automatic deployment on every commit.
+
+#### GitHub Deployment Challenges
+
+- Encountered an error with `enableFaultInjection` in the task definition JSON.
+  - Removed the parameter, but ECS kept referencing the old version.
+  - Fixed by committing changes and allowing ECS to update to `mlops_task2:2`.
+- GitHub marked deployment as failed until ECS reached a stable state.
+- Dockerfile was in a subdirectory (`A1`), so added `cd A1` in the workflow to locate it correctly.
+
+---
+
+## Notes
+
+- If the FastAPI app URL becomes inactive, please let me know so I can reactivate it.
+- Swagger UI is available at `/docs` for testing endpoints.
+
+---
