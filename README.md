@@ -11,7 +11,7 @@ This repository showcases a complete machine learning deployment pipeline—from
 ```
 .
 ├── A0/                     # Linear Regression training and visualization
-├── A1/                     # FastAPI app and Docker deployment
+├── AWS-Github-deployment/                     # FastAPI app and Docker deployment
 ├── mlflow_integration/    # MLflow tracking and model registry
 ├── Dockerfile
 ├── main.py
