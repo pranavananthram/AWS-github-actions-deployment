@@ -155,7 +155,7 @@ model = mlflow_sklearn.load_model(model_uri)
 
 ---
 
-## 🧪 How to Run Locally
+## How to Run Locally
 
 ```bash
 # Clone the repo
